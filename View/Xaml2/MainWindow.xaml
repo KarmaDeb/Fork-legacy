@@ -16,7 +16,12 @@
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
     <Grid>
-        <DockPanel Background="{DynamicResource backgroundDefault}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="128*"/>
+            <ColumnDefinition Width="423*"/>
+            <ColumnDefinition Width="49*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Background="{DynamicResource backgroundDefault}" Grid.ColumnSpan="3">
             <Grid Panel.ZIndex="100">
                 <Border Margin="0 0 5 0" Background="{DynamicResource backgroundDark}" />
                 <Grid Panel.ZIndex="1">
@@ -257,7 +262,7 @@
                                         <TextBlock Text="{Binding CurrentForkVersion.Beta}" Margin="-3 0 0 0"
                                                Foreground="{DynamicResource textUnselected}" />
                                         <TextBlock Text=")" Foreground="{DynamicResource textUnselected}" Margin="-3 0 0 0"/>                                        
-                                    </TextBlock>                                    
+                                    </TextBlock>
                                 </StackPanel>
                             </Label>
                         </StackPanel>
@@ -372,7 +377,7 @@
                        Background="{DynamicResource backgroundDefault}"/>
             </Grid>
         </DockPanel>
-        <Grid Panel.ZIndex="1" x:Name="DeleteServerOverlay" Visibility="Collapsed">
+        <Grid Panel.ZIndex="1" x:Name="DeleteServerOverlay" Visibility="Collapsed" Grid.ColumnSpan="3">
             <Rectangle Fill="#1F2234" Opacity="0.9" Margin="-5 0 0 0" />
             <StackPanel Panel.ZIndex="1" VerticalAlignment="Center">
                 <TextBlock Text="Delete Server" FontSize="28" FontFamily="{DynamicResource Montserrat-Bold}"
@@ -396,7 +401,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Panel.ZIndex="1" x:Name="DeleteNetworkOverlay" Visibility="Collapsed">
+        <Grid Panel.ZIndex="1" x:Name="DeleteNetworkOverlay" Visibility="Collapsed" Grid.ColumnSpan="3">
             <Rectangle Fill="#1F2234" Opacity="0.9" Margin="-5 0 0 0" />
             <StackPanel Panel.ZIndex="1" VerticalAlignment="Center">
                 <TextBlock Text="Delete Network" FontSize="28" FontFamily="{DynamicResource Montserrat-Bold}"
@@ -420,7 +425,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Panel.ZIndex="1" x:Name="RenameServerOverlay" Visibility="Collapsed">
+        <Grid Panel.ZIndex="1" x:Name="RenameServerOverlay" Visibility="Collapsed" Grid.ColumnSpan="3">
             <Rectangle Fill="#1F2234" Opacity="0.9" Margin="-5 0 0 0" />
             <StackPanel Panel.ZIndex="1" VerticalAlignment="Center">
                 <TextBlock Text="Rename Server" FontSize="28" FontFamily="{DynamicResource Montserrat-Bold}"
@@ -460,7 +465,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Panel.ZIndex="1" x:Name="RenameNetworkOverlay" Visibility="Collapsed">
+        <Grid Panel.ZIndex="1" x:Name="RenameNetworkOverlay" Visibility="Collapsed" Grid.ColumnSpan="3">
             <Rectangle Fill="#1F2234" Opacity="0.9" Margin="-5 0 0 0" />
             <StackPanel Panel.ZIndex="1" VerticalAlignment="Center">
                 <TextBlock Text="Rename Network" FontSize="28" FontFamily="{DynamicResource Montserrat-Bold}"
@@ -500,7 +505,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Panel.ZIndex="1" x:Name="CloneServerOverlay" Visibility="Collapsed">
+        <Grid Panel.ZIndex="1" x:Name="CloneServerOverlay" Visibility="Collapsed" Grid.ColumnSpan="3">
             <Rectangle Fill="#1F2234" Opacity="0.9" Margin="-5 0 0 0" />
             <StackPanel Panel.ZIndex="1" VerticalAlignment="Center">
                 <TextBlock Text="Clone Server" FontSize="28" FontFamily="{DynamicResource Montserrat-Bold}"
@@ -527,7 +532,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Panel.ZIndex="1" x:Name="CloneNetworkOverlay" Visibility="Collapsed">
+        <Grid Panel.ZIndex="1" x:Name="CloneNetworkOverlay" Visibility="Collapsed" Grid.ColumnSpan="3">
             <Rectangle Fill="#1F2234" Opacity="0.9" Margin="-5 0 0 0" />
             <StackPanel Panel.ZIndex="1" VerticalAlignment="Center">
                 <TextBlock Text="Clone Network" FontSize="28" FontFamily="{DynamicResource Montserrat-Bold}"
@@ -554,7 +559,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Panel.ZIndex="1" Visibility="{Binding ShowJavaWarning, Converter={StaticResource BoolToVisibilityConverter}}" d:Visibility="Hidden">
+        <Grid Panel.ZIndex="1" Visibility="{Binding ShowJavaWarning, Converter={StaticResource BoolToVisibilityConverter}}" d:Visibility="Hidden" Grid.ColumnSpan="3">
             <Rectangle Fill="#1F2234" Opacity="0.95" Margin="-5 0 0 0"/>
             <StackPanel Panel.ZIndex="1" VerticalAlignment="Center">
                 <TextBlock Text="Java Version Warning" FontSize="28" FontFamily="{DynamicResource Montserrat-Bold}"

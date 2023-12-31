@@ -14,6 +14,7 @@ using Fork.Logic.Model.ServerConsole;
 using Fork.Logic.Persistence;
 using Fork.Logic.Utils;
 using Fork.ViewModel;
+using MCQuery;
 using Websocket.Client;
 
 namespace Fork.Logic.WebRequesters
@@ -131,6 +132,7 @@ namespace Fork.Logic.WebRequesters
                 case "rec":
                     RecreateToken();
                     break;
+                    break;
                 case "stop":
                     Task.Run(() => SendMessageAsync(BuildResponseString(splitted, StopServer(splitted))));
                     break;
@@ -145,6 +147,9 @@ namespace Fork.Logic.WebRequesters
                     break;
                 case "playerList":
                     SendPlayerList(splitted[1]);
+                    break;
+                case "serverList":
+                    SendServerList();
                     break;
                 default:
                     Task.Run(() => SendMessageAsync("43|"+message.Text));
@@ -194,22 +199,18 @@ namespace Fork.Logic.WebRequesters
             resultSplitted.Add("notify");
             switch (splittedMessage[0])
             {
-                //notify|{servername}|{discordname}|{channelid}|{messageid}|stop|{status}
+                //notify|{servername}|{messageid}|stop|{status}
                 case "stop":
                     resultSplitted.Add(splittedMessage[1]);
                     resultSplitted.Add(splittedMessage[2]);
-                    resultSplitted.Add(splittedMessage[3]);
-                    resultSplitted.Add(splittedMessage[4]);
-                    resultSplitted.Add(splittedMessage[0]);
+                    resultSplitted.Add("stop");
                     resultSplitted.Add(status.ToString());
                     break;
-                //notify|{servername}|{discordname}|{channelid}|{messageid}|start|{status}
+                //notify|{servername}|{messageid}|start|{status}
                 case "start":
                     resultSplitted.Add(splittedMessage[1]);
                     resultSplitted.Add(splittedMessage[2]);
-                    resultSplitted.Add(splittedMessage[3]);
-                    resultSplitted.Add(splittedMessage[4]);
-                    resultSplitted.Add(splittedMessage[0]);
+                    resultSplitted.Add("start");
                     resultSplitted.Add(status.ToString());
                     break;
                 
@@ -234,12 +235,12 @@ namespace Fork.Logic.WebRequesters
                 .Where(entity => entity.Name.ToLower().Equals(serverName.ToLower())).ToList();
             if (targets.Count < 1)
             {
-                return 404;
+                return 44;
             }
             
             if (targets[0].CurrentStatus == ServerStatus.STOPPED)
             {
-                return 400;
+                return 40;
             }
             
             ConsoleWriter.Write(new ConsoleMessage($"Discord user {splitted[2]} stopped server remotely",ConsoleMessage.MessageLevel.WARN), targets[0]);
@@ -255,7 +256,7 @@ namespace Fork.Logic.WebRequesters
                 throw new NotImplementedException();
             }
 
-            return 200;
+            return 21;
         }
 
         /// <summary>
@@ -389,7 +390,6 @@ namespace Fork.Logic.WebRequesters
         {
             List<EntityViewModel> viewModels = new List<EntityViewModel>(ServerManager.Instance.Entities);
             List<string> resultList = new List<string>(2 + viewModels.Capacity * 6);
-            resultList.Add("event");
             resultList.Add("serverList");
             foreach (EntityViewModel viewModel in viewModels)
             {
@@ -404,9 +404,15 @@ namespace Fork.Logic.WebRequesters
                 }
                 else if (viewModel is NetworkViewModel networkViewModel)
                 {
-                    //TODO add a way to check how many players are connected to network
-                    resultList.Add("0");
+                    //resultList.Add("0");
+                    MCServer server = new MCServer("127.0.0.1", networkViewModel.Network.Port);
+                    MCQuery.ServerStatus status = server.Status(500); //Local ping request shouldn't take longer than 500 ms
+                    resultList.Add(status.Players.Online.ToString());
                     resultList.Add(networkViewModel.Network.Config.player_limit.ToString());
+                    /*
+                     * We can use PING requests to fetch the player count. Maybe it's not
+                     * the best, but should work
+                     */
                 }else
                 {
                     resultList.Add("0");

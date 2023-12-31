@@ -116,8 +116,18 @@ namespace Fork.View.Xaml2
             Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
         }
 
-        private void OnMainWindowClose(object sender, CancelEventArgs e)
+        private async void OnMainWindowClose(object sender, CancelEventArgs e)
         {
+            foreach (EntityViewModel vm in ApplicationManager.Instance.MainViewModel.Entities)
+            {
+                if (vm is ServerViewModel sv)
+                {
+                    ServerManager.Instance.StopServer(sv);
+                } else if (vm is NetworkViewModel nw)
+                {
+                    await ServerManager.Instance.StopNetworkAsync(nw, true);
+                }
+            }
             Application.Current.Shutdown();
         }
 
@@ -147,7 +157,6 @@ namespace Fork.View.Xaml2
 
         private void CloseCreateServer()
         {
-            
             if (!createOpen)
             {
                 return;
