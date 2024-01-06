@@ -14,7 +14,7 @@ using Fork.Logic.Model.ServerConsole;
 using Fork.Logic.Persistence;
 using Fork.Logic.Utils;
 using Fork.ViewModel;
-using MCQuery;
+//using MCQuery;
 using Websocket.Client;
 
 namespace Fork.Logic.WebRequesters
@@ -405,9 +405,10 @@ namespace Fork.Logic.WebRequesters
                 else if (viewModel is NetworkViewModel networkViewModel)
                 {
                     //resultList.Add("0");
-                    MCServer server = new MCServer("127.0.0.1", networkViewModel.Network.Port);
-                    MCQuery.ServerStatus status = server.Status(500); //Local ping request shouldn't take longer than 500 ms
-                    resultList.Add(status.Players.Online.ToString());
+                    /*MCServer server = new MCServer("127.0.0.1", networkViewModel.Network.Port);
+                    MCQuery.ServerStatus status = server.Status(500); //Local ping request shouldn't take longer than 500 ms*/
+                    //resultList.Add(status.Players.Online.ToString());
+                    resultList.Add("0");
                     resultList.Add(networkViewModel.Network.Config.player_limit.ToString());
                     /*
                      * We can use PING requests to fetch the player count. Maybe it's not
